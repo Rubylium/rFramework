@@ -1,6 +1,7 @@
 
 
-function AddItemToPlayerInv(id, item, _count)
+function AddItemToPlayerInv(id, item, _count, label)
+    print(item, _count, label)
     if DoesItemExist(item) then
         local player = _player_get_identifier(id)
         local inv, place = GetInventoryFromCache(id)
@@ -10,18 +11,18 @@ function AddItemToPlayerInv(id, item, _count)
         if invWeight + itemWeight <= framework._default_player_max_weight then
             local countOld, num = GetItemCount(item, inv)
             if countOld == 0 then
-                table.insert(inv, {name = item, count = _count})
+                table.insert(inv, {label = label, name = item, count = _count})
             else
                 DebugPrint(countOld, _count, countOld + _count)
                 table.remove(inv, num)
-                table.insert(inv, {name = item, count = countOld + _count})
+                table.insert(inv, {label = label, name = item, count = countOld + _count})
             end
 
             PlayersData[place].inventory = inv
 
             -- To remove later 
             for k,v in pairs(PlayersData[place].inventory) do
-                DebugPrint(v.name.." - x"..v.count)
+                DebugPrint(v.label..""..v.name.." - x"..v.count)
             end
         else
             -- To do notification if can not hold the item
@@ -29,7 +30,7 @@ function AddItemToPlayerInv(id, item, _count)
     end
 end
 
-function RemoveItemFromPlayerInv(id, item, _count)
+function RemoveItemFromPlayerInv(id, item, _count, label)
     if DoesItemExist(item) then
         local player = _player_get_identifier(id)
         local inv, place = GetInventoryFromCache(id)
@@ -41,7 +42,7 @@ function RemoveItemFromPlayerInv(id, item, _count)
                     table.remove(inv, k)
                 else
                     table.remove(inv, k)
-                    table.insert(inv, {name = item, count = count - _count})
+                    table.insert(inv, {label = label, name = item, count = count - _count})
                 end
             end
         end
@@ -50,7 +51,28 @@ function RemoveItemFromPlayerInv(id, item, _count)
 
         -- To remove later / For debug only
         for k,v in pairs(PlayersData[place].inventory) do
-            DebugPrint(v.name.." - x"..v.count)
+            DebugPrint(v.label..""..v.name.." - x"..v.count)
+        end
+    end
+end
+
+function RenameItem(id, item, _count, label)
+    if DoesItemExist(item) then
+        local player = _player_get_identifier(id)
+        local inv, place = GetInventoryFromCache(id)
+
+        for k,v in pairs(inv) do
+            if v.name == item then
+                table.remove(inv, k)
+                table.insert(inv, {label = label, name = item, count = _count})
+            end
+        end
+
+        PlayersData[place].inventory = inv
+
+        -- To remove later / For debug only
+        for k,v in pairs(PlayersData[place].inventory) do
+            DebugPrint(v.label..""..v.name.." - x"..v.count)
         end
     end
 end
