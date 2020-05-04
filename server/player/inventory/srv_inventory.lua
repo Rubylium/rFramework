@@ -1,7 +1,6 @@
 
 
 function AddItemToPlayerInv(id, item, _count, label)
-    print(item, _count, label)
     if DoesItemExist(item) then
         local player = _player_get_identifier(id)
         local inv, place = GetInventoryFromCache(id)
@@ -12,10 +11,12 @@ function AddItemToPlayerInv(id, item, _count, label)
             local countOld, num = GetItemCount(item, inv)
             if countOld == 0 then
                 table.insert(inv, {label = label, name = item, count = _count})
+                TriggerClientEvent("rF:addItem", id, item.." x".._count)
             else
                 DebugPrint(countOld, _count, countOld + _count)
                 table.remove(inv, num)
                 table.insert(inv, {label = label, name = item, count = countOld + _count})
+                TriggerClientEvent("rF:addItem", id, item.." x".._count)
             end
 
             PlayersData[place].inventory = inv
@@ -40,9 +41,11 @@ function RemoveItemFromPlayerInv(id, item, _count, label)
                 local count = v.count
                 if count - _count <= 0 then -- So we don't get player with negative items 
                     table.remove(inv, k)
+                    TriggerClientEvent("rF:rmvItem", id, item.." x".._count)
                 else
                     table.remove(inv, k)
                     table.insert(inv, {label = label, name = item, count = count - _count})
+                    TriggerClientEvent("rF:rmvItem", id, item.." x".._count)
                 end
             end
         end
@@ -51,7 +54,7 @@ function RemoveItemFromPlayerInv(id, item, _count, label)
 
         -- To remove later / For debug only
         for k,v in pairs(PlayersData[place].inventory) do
-            DebugPrint(v.label..""..v.name.." - x"..v.count)
+            DebugPrint(v.name.." - x"..v.count)
         end
     end
 end

@@ -3,14 +3,16 @@
 RegisterNetEvent("rF:GetPlayerInventory")
 AddEventHandler("rF:GetPlayerInventory", function()
     local inv = GetInventoryFromCache(source)
-    TriggerClientEvent("rF:SendPlayerInventory", source, inv)
+    local weight = GetInvWeight(inv)
+    TriggerClientEvent("rF:SendPlayerInventory", source, inv, weight)
 end)
 
 
 RegisterNetEvent("rF:GetOtherPlayerInventory")
 AddEventHandler("rF:GetOtherPlayerInventory", function(target)
     local inv = GetInventoryFromCache(target)
-    TriggerClientEvent("rF:SendPlayerInventory", source, inv)
+    local weight = GetInvWeight(inv)
+    TriggerClientEvent("rF:SendPlayerInventory", source, inv, weight)
 end)
 
 
@@ -20,7 +22,6 @@ AddEventHandler("rF:GiveItem", function(token, item, count, label)
         AddItemToPlayerInv(source, item, count, label)
     end
 end)
-
 
 RegisterNetEvent("rF:GiveItemToPlayer")
 AddEventHandler("rF:GiveItemToPlayer", function(token, target, item, count, label)
@@ -46,7 +47,7 @@ AddEventHandler("rF:RemoveItemToPlayer", function(token, target, item, count, la
 end)
 
 
-RegisterNetEvent("rF:RenameItem")
+RegisterNetEvent("rF:RenameItem") -- to use in your inventory menu
 AddEventHandler("rF:RenameItem", function(token, item, count, label)
     if CheckToken(token, source) then
         RenameItem(source, item, count, label)
