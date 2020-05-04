@@ -177,8 +177,8 @@ RegisterCommand('giveitem', function(source, args, rawCommand)
         local found = false
         for k,v in pairs(items) do
             if tostring(args[1]) == v.name then
-                found = true
-                TriggerServerEvent("rF:GiveItem", token, tostring(args[1]), tonumber(args[2]), tostring(args[3]) or v.label) 
+                found = true --                          name of the item   how many ?         label ? leave blank if you want the default label
+                TriggerServerEvent("rF:GiveItem", token, tostring(args[1]), tonumber(args[2]), tostring(args[3]) or v.label)
                 break
             end
         end
@@ -193,8 +193,8 @@ RegisterCommand('removeitem', function(source, args, rawCommand)
         local found = false
         for k,v in pairs(items) do
             if tostring(args[1]) == v.name then
-                found = true
-                TriggerServerEvent("rF:RemoveItem", token, tostring(args[1]), tonumber(args[2]), tostring(args[3]) or v.label) 
+                found = true --                          name of the item   how many ?         label ? leave blank if you want the default label
+                TriggerServerEvent("rF:RemoveItem", token, tostring(args[1]), tonumber(args[2]), tostring(args[3]) or v.label)
                 break
             end
         end

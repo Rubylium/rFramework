@@ -1,3 +1,4 @@
+
 function showNotificationWTime(text, time)
     time = time or 2500
     ClearPrints()
@@ -34,10 +35,10 @@ RegisterNetEvent("rF:advenced_notication")
 AddEventHandler("rF:advenced_notication", function(icon, sender, title, text)
     Citizen.CreateThread(function()
         Wait(1)
-        SetNotificationTextEntry("STRING")
-        AddTextComponentString(text)
+        SetNotificationTextEntry("STRING");
+        AddTextComponentString(text);
         SetNotificationMessageClanTag(icon, icon, true, 8, sender, title, 0.5, text)
-        DrawNotification(false, true)
+        DrawNotification(false, true);
     end)
 end)
 
