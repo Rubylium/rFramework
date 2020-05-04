@@ -1,10 +1,9 @@
-
-function TextWithTime(msg, duree)
-    duree = duree or 500
+function showNotificationWTime(text, time)
+    time = time or 2500
     ClearPrints()
     SetTextEntry_2("STRING")
-    AddTextComponentString(msg)
-    DrawSubtitleTimed(duree, 1)
+    AddTextComponentString(text)
+    DrawSubtitleTimed(time, 1)
 end
 
 function Notify(text)
@@ -35,9 +34,14 @@ RegisterNetEvent("rF:advenced_notication")
 AddEventHandler("rF:advenced_notication", function(icon, sender, title, text)
     Citizen.CreateThread(function()
         Wait(1)
-        SetNotificationTextEntry("STRING");
-        AddTextComponentString(text);
+        SetNotificationTextEntry("STRING")
+        AddTextComponentString(text)
         SetNotificationMessageClanTag(icon, icon, true, 8, sender, title, 0.5, text)
-        DrawNotification(false, true);
+        DrawNotification(false, true)
     end)
+end)
+
+RegisterNetEvent("rF:showNotificationWTime")
+AddEventHandler("rF:showNotificationWTime", function(text, time)
+    showNotificationWTime(text, time)
 end)
